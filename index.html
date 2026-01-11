@@ -2,97 +2,51 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Contagem Regressiva</title>
-
-  <!-- Fonte -->
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
-
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    html, body {
-      width: 100%;
-      height: 100%;
-      font-family: 'Orbitron', sans-serif;
-    }
-
     body {
-  background-image: url("img/rpg.gif");
-  background-size: 85%;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-color: #000;
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: black;
+      color: white;
+      font-family: Arial, Helvetica, sans-serif;
+    }
 
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-}
-
-
-    .container {
-      margin-top: 20px;
-      background: rgba(0, 0, 0, 0.45);
-      padding: 14px 22px;
-      border-radius: 12px;
+    #timer {
+      font-size: 3rem;
       text-align: center;
-      color: #fff;
-    }
-
-    .label {
-      font-size: 18px;
-      margin-bottom: 6px;
-      letter-spacing: 1px;
-    }
-
-    .timer {
-      font-size: 24px;
-      font-weight: 700;
-    }
-
-    @media (max-width: 480px) {
-      .label {
-        font-size: 16px;
-      }
-      .timer {
-        font-size: 22px;
-      }
     }
   </style>
 </head>
 <body>
 
-  <div class="timer">
-    Começa em: <span id="countdown">--:--:--</span>
-  </div>
+  <div id="timer">Começa em: --:--:--</div>
 
   <script>
     function atualizarContagem() {
       const agora = new Date();
+
       const alvo = new Date();
+      alvo.setHours(13, 0, 0, 0); // 13:00:00
 
-      alvo.setHours(13, 0, 0, 0); // 13:00 de hoje
+      let diferenca = alvo - agora;
 
-      // Se já passou das 13:00
-      if (agora >= alvo) {
-        document.getElementById("countdown").textContent = "00:00:00";
+      if (diferenca <= 0) {
+        document.getElementById("timer").innerText = "Começou!";
         return;
       }
-
-      const diferenca = alvo - agora;
 
       const horas = Math.floor(diferenca / (1000 * 60 * 60));
       const minutos = Math.floor((diferenca % (1000 * 60 * 60)) / (1000 * 60));
       const segundos = Math.floor((diferenca % (1000 * 60)) / 1000);
 
-      const formatar = (n) => n.toString().padStart(2, "0");
-
-      document.getElementById("countdown").textContent =
-        `${formatar(horas)}:${formatar(minutos)}:${formatar(segundos)}`;
+      document.getElementById("timer").innerText =
+        `Começa em: ${String(horas).padStart(2, "0")}:` +
+        `${String(minutos).padStart(2, "0")}:` +
+        `${String(segundos).padStart(2, "0")}`;
     }
 
     atualizarContagem();
