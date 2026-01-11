@@ -66,47 +66,37 @@
 </head>
 <body>
 
-  <div class="container">
-    <div class="label">Começa em:</div>
-    <div class="timer" id="countdown">--:--:--</div>
+  <div class="timer">
+    Começa em: <span id="countdown">--:--:--</span>
   </div>
 
   <script>
-    function getTomorrowAt13() {
-      const now = new Date();
-      const tomorrow = new Date(
-        now.getFullYear(),
-        now.getMonth(),
-        now.getDate() + 1,
-        13, 0, 0
-      );
-      return tomorrow;
-    }
+    function atualizarContagem() {
+      const agora = new Date();
+      const alvo = new Date();
 
-    const targetTime = getTomorrowAt13();
+      alvo.setHours(13, 0, 0, 0); // 13:00 de hoje
 
-    function updateCountdown() {
-      const now = new Date();
-      const diff = targetTime - now;
-
-      if (diff <= 0) {
-        document.getElementById("countdown").innerText = "00:00:00";
+      // Se já passou das 13:00
+      if (agora >= alvo) {
+        document.getElementById("countdown").textContent = "00:00:00";
         return;
       }
 
-      const hours = Math.floor(diff / (1000 * 60 * 60));
-      const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-      const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+      const diferenca = alvo - agora;
 
-      const h = String(hours).padStart(2, "0");
-      const m = String(minutes).padStart(2, "0");
-      const s = String(seconds).padStart(2, "0");
+      const horas = Math.floor(diferenca / (1000 * 60 * 60));
+      const minutos = Math.floor((diferenca % (1000 * 60 * 60)) / (1000 * 60));
+      const segundos = Math.floor((diferenca % (1000 * 60)) / 1000);
 
-      document.getElementById("countdown").innerText = `${h}:${m}:${s}`;
+      const formatar = (n) => n.toString().padStart(2, "0");
+
+      document.getElementById("countdown").textContent =
+        `${formatar(horas)}:${formatar(minutos)}:${formatar(segundos)}`;
     }
 
-    updateCountdown();
-    setInterval(updateCountdown, 1000);
+    atualizarContagem();
+    setInterval(atualizarContagem, 1000);
   </script>
 
 </body>
