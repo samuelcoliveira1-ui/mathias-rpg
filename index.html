@@ -4,49 +4,54 @@
   <meta charset="UTF-8">
   <title>Contagem Regressiva</title>
   <style>
-    body {
+    * {
       margin: 0;
-      height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: black;
-      color: white;
+      padding: 0;
+      box-sizing: border-box;
       font-family: Arial, Helvetica, sans-serif;
     }
 
-    #timer {
-      font-size: 3rem;
+    body {
+      height: 100vh;
+      background-color: black;
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+    }
+
+    #contador {
+      margin-top: 20px;
+      font-size: 2rem;
       text-align: center;
     }
   </style>
 </head>
 <body>
 
-  <div id="timer">Começa em: --:--:--</div>
+  <div id="contador">Começa em: --:--:--</div>
 
   <script>
     function atualizarContagem() {
       const agora = new Date();
 
-      const alvo = new Date();
-      alvo.setHours(13, 0, 0, 0); // 13:00:00
+      // Data alvo: 13 de janeiro às 13:00
+      const alvo = new Date(agora.getFullYear(), 0, 13, 13, 0, 0);
 
-      let diferenca = alvo - agora;
+      const diferenca = alvo - agora;
 
       if (diferenca <= 0) {
-        document.getElementById("timer").innerText = "Começou!";
+        document.getElementById("contador").innerText = "Começou!";
         return;
       }
 
-      const horas = Math.floor(diferenca / (1000 * 60 * 60));
-      const minutos = Math.floor((diferenca % (1000 * 60 * 60)) / (1000 * 60));
-      const segundos = Math.floor((diferenca % (1000 * 60)) / 1000);
+      const dias = Math.floor(diferenca / (1000 * 60 * 60 * 24));
+      const horas = Math.floor((diferenca / (1000 * 60 * 60)) % 24);
+      const minutos = Math.floor((diferenca / (1000 * 60)) % 60);
+      const segundos = Math.floor((diferenca / 1000) % 60);
 
-      document.getElementById("timer").innerText =
-        `Começa em: ${String(horas).padStart(2, "0")}:` +
-        `${String(minutos).padStart(2, "0")}:` +
-        `${String(segundos).padStart(2, "0")}`;
+      document.getElementById("contador").innerText =
+        `Começa em: ${dias}d ${horas}h ${minutos}m ${segundos}s`;
     }
 
     atualizarContagem();
