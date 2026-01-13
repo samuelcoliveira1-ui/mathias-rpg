@@ -35,8 +35,13 @@
     function atualizarContagem() {
       const agora = new Date();
 
-      // Data alvo: 13 de janeiro às 13:00
-      const alvo = new Date(agora.getFullYear(), 0, 13, 13, 0, 0);
+      // Hoje às 13:30
+      const alvo = new Date(
+        agora.getFullYear(),
+        agora.getMonth(),
+        agora.getDate(),
+        13, 30, 0
+      );
 
       const diferenca = alvo - agora;
 
@@ -45,13 +50,12 @@
         return;
       }
 
-      const dias = Math.floor(diferenca / (1000 * 60 * 60 * 24));
-      const horas = Math.floor((diferenca / (1000 * 60 * 60)) % 24);
+      const horas = Math.floor(diferenca / (1000 * 60 * 60));
       const minutos = Math.floor((diferenca / (1000 * 60)) % 60);
       const segundos = Math.floor((diferenca / 1000) % 60);
 
       document.getElementById("contador").innerText =
-        `Começa em: ${dias}d ${horas}h ${minutos}m ${segundos}s`;
+        `Começa em: ${horas}h ${minutos}m ${segundos}s`;
     }
 
     atualizarContagem();
